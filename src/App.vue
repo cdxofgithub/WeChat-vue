@@ -1,23 +1,39 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <div class="sidebar">
+      <mycard></mycard>
+    </div>
+    <div class="main">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
+import mycard from '@/components/mycard/mycard'
+import { mapActions } from 'vuex'
 export default {
-  name: 'app'
+  components: {
+    mycard
+  }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus">
+  #app
+    display: flex
+    border-radius 50px
+    margin: 20px auto
+    width: 860px
+    height: 600px
+    background-color: #fff
+    .sidebar
+      width: 60px
+      height: 600px
+      background: #2b2c2f
+    .main
+      flex: 1
+      height: 600px
+      background: #f2f2f2
 </style>
+

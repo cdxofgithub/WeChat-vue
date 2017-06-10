@@ -1,15 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
-      path: '/',
-      name: 'Hello',
-      component: Hello
+      path: '/chat',
+      component: require('@/page/chat/chat.vue')
+    },
+    {
+      path: '/friend',
+      component: require('@/page/friend/friend.vue')
+    },
+    {
+      path: '/my',
+      component: require('@/page/resume/resume.vue')
     }
-  ]
+  ],
+  linkActiveClass: 'active' //用 active 替换点击时添加的class
 })
+router.push({path: '/chat'});
+export default router
