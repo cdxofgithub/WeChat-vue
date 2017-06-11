@@ -77,6 +77,17 @@ const state = {
       area: "",  //地区
     },
     {
+      id: 15,
+      wxid: "microzz",
+      initial: 'D',
+      img: 'static/images/microzz.jpg',
+      signature: "学习让我快乐让我成长",
+      nickname: "microzz",
+      sex: 1,
+      remark: "大佬",
+      area: "江西 赣州",
+    },
+    {
       id: 1,
       wxid: "AmorAres-", //微信号
       initial: 'A', //姓名首字母
@@ -218,7 +229,7 @@ const state = {
     { file: '160.gif', code: '/:coffee', title: '咖啡', reg: /\/:coffee/g }
   ],
   // 得知当前选择的是哪个对话
-  selectId: 1,
+  selectId: 0,
   // 得知当前选择的是哪个好友
   selectFriendId: 0
 }
@@ -304,6 +315,20 @@ const getters = {
   searchedFriendlist(state) {
     let friends = state.friendlist.filter(friends => friends.remark.includes(state.searchText));
     return friends
+  },
+  // 通过当前选择是哪个对话匹配相应的对话
+  selectedChat(state) {
+    let session = state.chatlist.find(session => session.id === state.selectId);
+    return session
+  },
+  // 通过当前选择是哪个好友匹配相应的好友
+  selectedFriend(state) {
+    let friend = state.friendlist.find(friend => friend.id === state.selectFriendId);
+    return friend
+  },
+  messages(state) {
+    let session = state.chatlist.find(session => session.id === state.selectId);
+    return session.messages
   }
 }
 
@@ -314,6 +339,10 @@ const actions = {
     }, 100)
   },
   selectSession: ({ commit }, value) => commit('selectSession', value),
+  selectFriend: ({ commit }, value) => commit('selectFriend', value),
+  sendMessage: ({ commit }, msg) => commit('sendMessage', msg),
+  send: ({ commit }) => commit('send'),
+  initData: ({ commit }) => commit('initData')
 }
 
 const store = new Vuex.Store({
