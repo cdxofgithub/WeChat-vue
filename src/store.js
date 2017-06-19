@@ -3,11 +3,13 @@ import Vuex from 'vuex'
 import router from './router'
 Vue.use(Vuex)
 
+//获取当前时间
 const now = new Date();
-
 const state = {
   // 输入的搜索值
   searchText: '',
+  // more弹出层
+  more_show: false,
   // 当前登录用户
   user: {
     name: 'ratel',
@@ -18,7 +20,7 @@ const state = {
     {
       id: 1,
       user: {
-        name: 'mother',
+        name: '妈咪',
         img: 'static/images/mother.jpg'
       },
       messages: [
@@ -75,17 +77,6 @@ const state = {
       sex: 0,   //性别 1为男，0为女
       remark: "新的朋友",  //备注
       area: "",  //地区
-    },
-    {
-      id: 15,
-      wxid: "microzz",
-      initial: 'D',
-      img: 'static/images/microzz.jpg',
-      signature: "学习让我快乐让我成长",
-      nickname: "microzz",
-      sex: 1,
-      remark: "大佬",
-      area: "江西 赣州",
     },
     {
       id: 1,
@@ -229,7 +220,7 @@ const state = {
     { file: '160.gif', code: '/:coffee', title: '咖啡', reg: /\/:coffee/g }
   ],
   // 得知当前选择的是哪个对话
-  selectId: 0,
+  selectId: 1,
   // 得知当前选择的是哪个好友
   selectFriendId: 0
 }
@@ -244,11 +235,15 @@ const mutations = {
   },
   // 获取搜索值
   search(state, value) {
-    state.searchText = value;
+    state.searchText = value
   },
   // 得知用户当前选择的是哪个对话。便于匹配对应的对话框
   selectSession(state, value) {
     state.selectId = value
+  },
+  // 更改more的弹出框
+  m_show(state, value) {
+    state.more_show = value
   },
   // 得知用户当前选择的是哪个好友。
   selectFriend(state, value) {
@@ -304,7 +299,6 @@ const mutations = {
     }
   }
 }
-
 const getters = {
   // 筛选出含有搜索值的聊天列表
   searchedChatlist(state) {
@@ -342,9 +336,9 @@ const actions = {
   selectFriend: ({ commit }, value) => commit('selectFriend', value),
   sendMessage: ({ commit }, msg) => commit('sendMessage', msg),
   send: ({ commit }) => commit('send'),
-  initData: ({ commit }) => commit('initData')
+  initData: ({ commit }) => commit('initData'),
+  m_show: ({ commit }, value) => commit('m_show', value)
 }
-
 const store = new Vuex.Store({
   state,
   mutations,
@@ -352,4 +346,14 @@ const store = new Vuex.Store({
   actions
 })
 
+// 监听聊天列表的值， 发生变化就保存在localStorage中
+store.watch(
+  (state) => state.chatlist,
+  (val) => {
+    localStorage.setItem('vue-chat', JSON.stringify(val));
+  },
+  {
+    deep: true
+  }
+)
 export default store;

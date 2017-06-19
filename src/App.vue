@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" @click="m_show(false)">
     <div class="sidebar">
       <mycard></mycard>
     </div>
@@ -15,6 +15,14 @@ import { mapActions } from 'vuex'
 export default {
   components: {
     mycard
+  },
+  created() {
+    this.$store.dispatch('initData')
+  },
+  methods: {
+    ...mapActions([
+      'm_show'
+    ])
   }
 }
 </script>

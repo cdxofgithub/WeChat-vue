@@ -33,7 +33,7 @@ export default {
       frequency: 0,
       warn: false,
       showEmoji: false,
-    }
+    };
   },
   computed: {
     ...mapState([
@@ -66,15 +66,13 @@ export default {
             if (this.content.includes('/:')) {
               this.reply = '嘻嘻'
             }
-          }).catch(err => {
-            this.reply = '机器人正在充电呦~'
+            var msg = {
+              content: this.content,
+              reply: this.reply
+            }
+            this.$store.dispatch('sendMessage', msg)
+            this.content = ''
           })
-          var msg = {
-            content: this.content,
-            reply: this.reply
-          }
-          this.$store.dispatch('sendMessage', msg)
-          this.content = ''
         } else {
           var msg = {
             content: this.content,
@@ -88,6 +86,26 @@ export default {
   // 在进入的时候 聚焦输入框
   mounted() {
     this.$refs.text.focus()
+  },
+  watch: {
+    // 在选择其它对话的时候 聚焦输入框
+    selectId() {
+      setTimeout(() => {
+        this.$refs.text.focus()
+      }, 0)
+    },
+    // 当输入框中的值为空时 弹出提示  并在一秒后消失
+    content() {
+      if (this.content === '') {
+        if (this.frequency === 0) {
+          this.warn = true;
+          this.frequency++
+          setTimeout(() => {
+            this.warn = false;
+          }, 1000)
+        }
+      }
+    }
   }
 }
 </script>
