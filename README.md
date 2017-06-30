@@ -1,6 +1,8 @@
 # WeChat
 
-> A Vue.js project
+> 仿PC端微信的单页面应用
+
+[在线预览](http://cdxwangwang.cn/wechat)
 
 ## Build Setup
 
